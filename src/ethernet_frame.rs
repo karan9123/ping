@@ -10,7 +10,7 @@ pub(crate) struct EthernetFrame {
     pub(crate) source_address: [u8; 6],
     ///EtherType of the frame.
     pub(crate) ether_type: [u8; 2],
-    ///Packet payload of the frame.
+    ///Packet payload of the frame.(Support for IPv4 only)
     pub(crate) packet: IPV4,
 }
 
@@ -53,7 +53,7 @@ impl EthernetFrame {
     /// A new Ethernet frame.
     pub(crate) fn new_ether(packet: IPV4) -> EthernetFrame {
         EthernetFrame {
-            destination_address: [0xAC, 0x84, 0xC6, 0x67, 0x43, 0x8C],
+            destination_address: [0x48, 0xa9, 0x8a, 0x3f, 0xb8, 0x5e],//[0xAC, 0x84, 0xC6, 0x67, 0x43, 0x8C],
             source_address: [0x3c, 0x06, 0x30, 0x36, 0x61, 0x6c],
             ether_type: [0x08, 0x00],
             packet,

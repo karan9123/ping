@@ -5,7 +5,6 @@ mod ipv4;
 use commands::ping::{recv_icmp_response, send_icmp_echo_request};
 
 fn main() {
-    // println!("Hello, world!");
     let mut sequence = 44;
 
     for _ in 0..10 {

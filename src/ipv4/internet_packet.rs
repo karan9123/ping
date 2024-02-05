@@ -96,7 +96,7 @@ impl IPV4 {
             ttl,
             protocol,
             header_checksum: 0,
-            source_add: [192, 168, 0, 101], // Source IP Address of my computer
+            source_add: [172, 16, 67, 126],     //[192, 168, 0, 101], // Source IP Address of my computer
             destination_add: [142, 251, 35, 174], //Destination IP Address of Google.com
             options,
             datagram,

@@ -80,7 +80,6 @@ impl ICMPPacket {
     pub(crate) fn new_echo_request(sequence: u16) -> ICMPPacket {
         let now = SystemTime::now();
         let data = time_to_bytes(now);
-        println!("data:---->>>>> {:?}", data.len());
 
         let identifier: u16 = std::process::id() as u16;
 
