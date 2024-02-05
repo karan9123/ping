@@ -11,22 +11,20 @@ use std::{io::Write, mem};
 pub(crate) fn print_ping(frame: &[u8]){
     let mut frame = EthernetFrame::from_bytes(frame);
     println!("{:?}", frame.packet.source_add);
-    let len = frame.packet.to_bytes().len();
-    print!("{}: ", len + 14);
-    
+    let ether_len = frame.to_bytes().len();
+    print!("{}: ", ether_len);
 }
 
 /// Sends an ICMP echo request to the specified IP address.
-pub(crate) fn send_icmp_echo_request(sequence: u16) {
+pub(crate) fn send_icmp_echo_request(sequence: u16, source_ip_add: [u8; 4]) {
     let icmp_req = ICMPPacket::new_echo_request(sequence);
         
-    let ipv4_packet = IPV4::new_icmp_from_ip(icmp_req, 64);
+    let ipv4_packet = IPV4::new_icmp_from_ip(icmp_req, 64, source_ip_add);
 
     let mut ether_frame = EthernetFrame::new_ether(ipv4_packet);
 
-    // println!("Sent Frame:\n{}", ether_frame);
-
     let pack = ether_frame.to_bytes();
+    println!("{:?}", pack.len());
 
     let mut bpf_device = std::fs::OpenOptions::new()
         .write(true)
@@ -51,8 +49,12 @@ pub(crate) fn recv_icmp_response() {
         .immediate_mode(true)
         .open()
         .unwrap();
+    
+    // Filter to read the ICMP echo response
+    cap.filter("icmp[icmptype] == icmp-echoreply", false).unwrap();
 
     let data = cap.next_packet().unwrap().data;
+    // let data = cap.filter(, optimize)
 
     print_ping(data);
 }

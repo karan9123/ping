@@ -74,6 +74,7 @@ impl IPV4 {
         datagram: ICMPPacket,
         protocol: u8,
         ttl: u8,
+        source_add: [u8; 4],
         options: Option<Vec<u8>>,
     ) -> IPV4 {
         let mut version_header_len = 0x45; // First 4 bits for version, next 4 bits for header length
@@ -96,7 +97,7 @@ impl IPV4 {
             ttl,
             protocol,
             header_checksum: 0,
-            source_add: [172, 16, 67, 126],     //[192, 168, 0, 101], // Source IP Address of my computer
+            source_add, //[172, 16, 67, 126],     //[192, 168, 0, 101], // Source IP Address of my computer
             destination_add: [142, 251, 35, 174], //Destination IP Address of Google.com
             options,
             datagram,
@@ -138,8 +139,8 @@ impl IPV4 {
     }
 
     ///Creates a new ICMP packet from an IPv4 packet.
-    pub(crate) fn new_icmp_from_ip(datagram: ICMPPacket, ttl: u8) -> IPV4 {
-        IPV4::new(datagram, 1, ttl, None)
+    pub(crate) fn new_icmp_from_ip(datagram: ICMPPacket, ttl: u8, source_add: [u8; 4]) -> IPV4 {
+        IPV4::new(datagram, 1, ttl,source_add,None)
     }
 
     /*    pub(crate) fn new_with_ttl(datagram: ICMPPacket, ttl: u8,
