@@ -1,4 +1,4 @@
-# Rust Networking Tool
+# Network Troubleshooting and Monitoring Tool.
 
 This is a Rust-based networking tool that includes a low-level implementation of networking protocols like Ethernet and IPv4, and features an ICMP "ping" utility. This tool provides a way to understand and manipulate raw network frames using Rust.
 
